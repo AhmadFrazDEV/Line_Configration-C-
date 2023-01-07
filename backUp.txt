@@ -1,0 +1,326 @@
+// ======================== Program.cs ==========================
+
+using System;
+using System.Collections.Generic;
+using static System.Console;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+using Point.BL;
+
+namespace Line
+{
+    class Program
+    {
+        MyLine obj = new MyLine();
+        static void Main(string[] args)
+        {
+            int opt;
+            LestStart();
+            do
+            {
+                opt = menu();
+                if (opt == 1)
+                {
+                     MyLineUI.makeLine();
+                    clearScreen();
+                }
+                if (opt == 2)
+                {
+                    MyPointUI.UpdateTheBegningPoint();
+                    clearScreen();
+                }
+                if(opt == 3)
+                {
+                    MyPointUI.UpdateTheEndPoint();
+                }
+                if(opt == 4)
+                {
+                    MyPointUI.showUpdateBegningPoint();
+                }
+                if (opt == 5) { MyPointUI.showUpdateEndingPoint(); }
+                if(opt == 6) { getLength(); }
+                if(opt == 7) { getGradient(); }
+            }
+            while (opt != 10);
+        }
+
+        static int menu()
+        {
+            WriteLine("1. Make a Line");
+            WriteLine("2. Update the Begin Point");
+            WriteLine("3. Update the End Point");
+            WriteLine("4. Show the Updated Point");
+            WriteLine("5. Show the End Point");
+            WriteLine("6. Get the Length of Line");
+            WriteLine("7. Get the Gradient of line");
+            WriteLine("8. Find the distance of begin point from zero coordinates");
+            WriteLine("9. Find the distance of end point from zero coordinates");
+            WriteLine("10. Exit");
+            WriteLine();
+            int opt;
+            Write("Your Option ____________  ");
+            opt = int.Parse(ReadLine());
+            return opt;
+        }
+
+      
+         static void clearScreen()
+        {
+            Write("Press any Key To continue_______");
+            ReadKey();
+            Clear();
+        }
+
+        static void LestStart()
+        {
+            Write("Lets's Start......");
+            ReadKey();
+            Clear();
+        }
+
+        static void getLength()
+        {
+            MyLine length = new MyLine();
+            Write("The Length for Above Points is -------> {0}" , length.getLenght());
+        }
+
+        static void getGradient()
+        {
+            MyLine gredient = new MyLine();
+            Write("The Gredient for Above Points is -------> {0}", gredient.getGradient()); 
+        }
+    }
+
+
+}
+
+// ================================ Myline.cs ======================
+  using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+namespace Point.BL
+{
+    class MyLine
+    {
+       private MyPoint begin;
+        private MyPoint end;
+
+        public MyPoint get_BP() { return begin; }
+        public void set_BP(MyPoint begin) { this.begin = begin; }
+
+        public MyPoint get_EP() { return end; }
+        public void set_EP(MyPoint end) { this.end = end; }
+
+
+        public MyLine()
+        {
+            
+        }
+        public MyLine(MyPoint begin , MyPoint end)
+        {
+            this.begin = begin;
+            this.end = end;
+        }
+
+  
+
+        public double getLenght()
+        {
+            MyPoint point = new MyPoint();
+            double length;
+            length = Math.Sqrt(Math.Pow((begin.getX() - point.getX()) , 2) +Math.Pow( (end.getY() - point.getY()) , 2));
+            return length;
+        }
+
+        public double getGradient()
+        {
+            MyPoint point = new MyPoint();
+
+            double gredient = (point.getY() - end.getY()) / point.getX() - begin.getX();
+            return gredient;
+        }
+       
+    }
+}
+
+//=============================== MyPoint.cs ===========================
+
+using System;
+using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Line.BL
+{
+    class MyPoint
+    {
+        private int x;
+        private int y;
+
+        public int getX() { return x; }
+        public void setX(int x) { this.x = x; }
+
+        public int getY() { return y; }
+        public void setY(int y) { this.y = y; }
+
+        public MyPoint()
+        {
+            x = 0;
+            y = 0;
+        }
+        public MyPoint(int x , int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public void DrawLine()
+        {
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    Write("*");
+                }
+            }
+        }
+       
+
+      
+
+        public void setxy(int x , int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public double distancewithCoordinates(int x1 , int y1)
+        {
+        
+            //----------> Using Distance Formula
+            double L = Math.Sqrt((Math.Pow((x1 - x), 2)) + (Math.Pow((y1 - y), 2)));
+            return L;
+        }
+        public double distancewithObjexts(MyPoint newPoint)
+        {
+           
+            //----------> Using Distance Formula
+            double L = Math.Sqrt((Math.Pow((newPoint.x - x), 2)) + (Math.Pow((newPoint.y - y), 2)));
+            return L;
+        }
+
+        public double distanceFromZero()
+        {
+            double L;
+            return L = (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)));
+        }
+    }
+}
+
+// =============================  MyLineUI ===========================
+
+using System;
+using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+using Point.BL;
+namespace Line.BL
+{
+    class MyLineUI
+    {
+        public static MyLine makeLine()
+        {
+            WriteLine("Enter Begin Point: ");
+            MyPoint begin = MyPointUI.inputPoint();
+            WriteLine("Enter End Point: ");
+            MyPoint end = MyPointUI.inputPoint();
+            MyLine input = new MyLine(begin, end);
+            return input;
+        }
+    }
+}
+
+// ================================ MyPointUI ==========================
+
+using System;
+using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+using Point.BL;
+namespace Line.BL
+{
+    class MyPointUI
+    {
+      public static  MyLine UpgradeBegin = new MyLine();
+
+        public static MyPoint inputPoint()
+        {
+            Write("Enter x coordinate: ");
+            int x = int.Parse(Console.ReadLine());
+            Write("Enter y coordinate: ");
+            int y = int.Parse(Console.ReadLine());
+            MyPoint input = new MyPoint(x, y);
+            return input;
+        }
+
+        public static void UpdateTheBegningPoint()
+        {
+            MyPoint Upgrade = new MyPoint();
+            WriteLine("Upgrading Begning Point.....");
+            Write("Enter the X coordinate : ");
+            int x = int.Parse(ReadLine());
+            Write("Enter the Y coordinate : ");
+            int y = int.Parse(ReadLine());
+            Upgrade.setX(x);
+            Upgrade.setY(y);
+          //  MyLine UpgradeBegin = new MyLine();
+            UpgradeBegin.set_BP(Upgrade);
+            Write("Upgraded Points Are : ({0} , {1})", UpgradeBegin.get_BP().getX(), UpgradeBegin.get_BP().getY());
+        }
+
+        public static void UpdateTheEndPoint()
+        {
+            MyPoint Upgrade = new MyPoint();
+            WriteLine("Upgrading End Point....");
+            WriteLine();
+            Write("Enter the X coordinate : ");
+            int x = int.Parse(ReadLine());
+            Write("Enter the Y coordinate : ");
+            int y = int.Parse(ReadLine());
+            Upgrade.setX(x);
+            Upgrade.setY(y);
+           // MyLine UpgradeBegin = new MyLine();
+            UpgradeBegin.set_EP(Upgrade);
+        }
+
+        public static void showUpdateBegningPoint()
+        {
+            
+            Write("Upgraded Points Are : ({0} , {1})", UpgradeBegin.get_BP().getX(), UpgradeBegin.get_BP().getY());
+
+        }
+
+        public static void showUpdateEndingPoint()
+        {
+            MyLine U = new MyLine();
+            Write("Updated Begning Point is ------> {0}", U.get_EP());
+        }
+        public static void showUpdatedPoint(MyPoint previousPoint, MyPoint newPoint)
+        {
+            WriteLine("Previous Point Was: ({0},{1})", previousPoint.getX(), previousPoint.getY());
+            WriteLine("Updated Point: ({0},{1})", newPoint.getX(), newPoint.getY());
+        }
+    }
+}

@@ -1,0 +1,241 @@
+//=====================Main==================
+using System;
+using System.Collections.Generic;
+using static System.Console;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+using Point.BL;
+
+namespace Line
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int opt;
+            do
+            {
+                opt = menu();
+                if (opt == 1){ makeLine();}
+                if (opt == 2) { UpdateTheBegningPoint(); }
+                if(opt == 3) { UpdateTheEndPoint(); }
+                if(opt == 4) { showUpdateBegningPoint(); }
+                if (opt == 5) { showUpdateEndingPoint(); }
+                if(opt == 6) { getLength(); }
+                if(opt == 7) { getGradient(); }
+            }
+            while (opt != 10);
+        }
+
+        static int menu()
+        {
+            WriteLine("1. Make a Line");
+            WriteLine("2. Update the Begin Point");
+            WriteLine("3. Update the End Point");
+            WriteLine("4. Show the Updated Point");
+            WriteLine("5. Show the End Point");
+            WriteLine("6. Get the Length of Line");
+            WriteLine("7. Get the Gradient of line");
+            WriteLine("8. Find the distance of begin point from zero coordinates");
+            WriteLine("9. Find the distance of end point from zero coordinates");
+            WriteLine("10. Exit");
+            Write("Your Option ----->");
+            int opt = int.Parse(ReadLine());
+            return opt;
+        }
+
+        static void makeLine()
+        {
+            MyLine L1 = new MyLine();
+            Write("Enter the starting Point ----->");
+            L1.begin.x = int.Parse(ReadLine());
+            Write("Enter the Ending Point ----->");
+            L1.end.y = int.Parse(ReadLine());
+            MyLine L = new MyLine(L1.begin , L1.end);
+            int x, y;
+            Write("Enter the X coordinate ------->");
+            x = int.Parse(ReadLine());
+            Write("Enter the Y coordinate ------->");
+            y = int.Parse(ReadLine());
+            MyPoint point = new MyPoint(x, y);
+            //point.DrawLine();
+        }
+         
+        static void UpdateTheBegningPoint()
+        {
+            MyLine U_x = new MyLine();
+            Write("Enter the Updated Begning Value ----->");
+            U_x.begin.x = int.Parse(ReadLine());
+            U_x.setBegin(U_x.begin);
+        }
+
+        static void UpdateTheEndPoint()
+        {
+            MyLine U_y = new MyLine();
+            Write("Enter the Updated Ending Value ----->");
+            U_y.begin.y = int.Parse(ReadLine());
+            U_y.setBegin(U_y.begin);
+        }
+
+        static void showUpdateBegningPoint()
+        {
+            MyLine U = new MyLine();
+            Write("Updated Begning Point is ------> {0}", U.getBegin());
+        }
+
+        static void showUpdateEndingPoint()
+        {
+            MyLine U = new MyLine();
+            Write("Updated Begning Point is ------> {0}", U.getEnd());
+        }
+
+        static void getLength()
+        {
+            MyLine length = new MyLine();
+            Write("The Length for Above Points is -------> {0}" , length.getLenght());
+        }
+
+        static void getGradient()
+        {
+            MyLine gredient = new MyLine();
+            Write("The Gredient for Above Points is -------> {0}", gredient.getGradient()); 
+        }
+    }
+
+
+}
+
+
+//============================class MyPoint====================
+using System;
+using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Line.BL
+{
+    class MyPoint
+    {
+        public int x;
+        public int y;
+
+       public MyPoint()
+        {
+            x = 0;
+            y = 0;
+        }
+        public MyPoint(int x , int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public void DrawLine()
+        {
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    Write("*");
+                }
+            }
+        }
+        public void getX()
+        {
+            Write("Value of X is ---->{0}" , x);
+        }
+        public void getY()
+        {
+            Write("Value of Y is ---->{0}", y);
+        }
+
+        public void setX(int x1)
+        {
+            x1 = x;
+        }
+        public void setY(int y1)
+        {
+            y1 = y;
+        }
+
+        public double distancewithCoordinates(int x1 , int y1)
+        {
+            x = 0;
+            y = 0;
+            //----------> Using Distance Formula
+            double L = Math.Sqrt((Math.Pow((x1 - x), 2)) + (Math.Pow((y1 - y), 2)));
+            return L;
+        }
+        public double distancewithObjexts(int x1, int y1)
+        {
+           
+            //----------> Using Distance Formula
+            double L = Math.Sqrt((Math.Pow((x1 - x), 2)) + (Math.Pow((y1 - y), 2)));
+            return L;
+        }
+    }
+}
+
+
+//=======================class MyLine============
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Line.BL;
+namespace Point.BL
+{
+    class MyLine
+    {
+       public MyPoint begin;
+       public MyPoint end;
+
+        public MyLine()
+        {
+            
+        }
+        public MyLine(MyPoint begin , MyPoint end)
+        {
+            this.begin = begin;
+            this.end = end;
+        }
+
+        public void setBegin(MyPoint b)
+        {
+            begin = b;
+        }
+        public void setEnd(MyPoint e)
+        {
+            end = e;
+        }
+        public MyPoint getBegin()
+        {
+            return begin;
+        }
+        public MyPoint getEnd()
+        {
+            return end ;
+        }
+
+        public double getLenght()
+        {
+            MyPoint point = new MyPoint();
+            double length;
+            length = Math.Sqrt(Math.Pow((begin.x - point.x) , 2) +Math.Pow( (end.y - point.y) , 2));
+            return length;
+        }
+
+        public double getGradient()
+        {
+            MyPoint point = new MyPoint();
+
+            double gredient = (point.y - end.y) / point.x - begin.x;
+            return gredient;
+        }
+       
+    }
+}
